@@ -2,7 +2,7 @@
 public class ShortestPathTec {
 
 	public static void main(String[] args) {
-		System.out.println("Ya se armó");
+		System.out.println("Pto el que lo lea");
 	}
 
 }
