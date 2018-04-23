@@ -1,8 +1,10 @@
+import javax.swing.JFrame;
 
-public class ShortestPathTec {
-
+public class ShortestPathTec extends JFrame{
+	
 	public static void main(String[] args) {
-		System.out.println("Palindromo no es palindromo");
+		JFrame window = new JFrame();
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 }
