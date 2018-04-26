@@ -13,7 +13,7 @@ public class PanelDibujo extends JPanel{
 	
 	public PanelDibujo() {
 		super();
-		this.mapita = new ImageIcon("Proyectito.jpg").getImage();
+		this.mapita = new ImageIcon("MapaITESMPuntos.jpg").getImage();
 		this.setPreferredSize(new Dimension(895, 719));
 		this.addMouseListener(new MouseListener() {
 			public void mouseReleased(MouseEvent e) {}
