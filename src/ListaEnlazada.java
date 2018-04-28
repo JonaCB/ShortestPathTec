@@ -35,6 +35,16 @@ public class ListaEnlazada<E> {
 		this.size = 0;
 	}
 	
+	public E[] getValues(){
+		NodoLE<E> current = this.inicio();
+		E[] nodos = (E[]) new Object[this.size];
+		for(int i = 0; i<this.size-1; i++) {
+			nodos[i] = current.getDato();
+			current = current.getNext();
+		}
+		return nodos;
+	}
+	
 	public NodoLE<E> inicio(){
 		return this.inicio;
 	}
@@ -43,7 +53,7 @@ public class ListaEnlazada<E> {
 		return this.fin;
 	}
 	
-	public int size() {
+	public int getSize() {
 		return this.size;
 	}
 	
@@ -147,7 +157,7 @@ public class ListaEnlazada<E> {
 	}
 	
 	public void insertarFin(E dato) {
-		if(this.size() > 0) {
+		if(this.size > 0) {
 			NodoLE<E> nuevo = new NodoLE<>(dato, null);
 			NodoLE<E> current = this.inicio;
 			int pos = this.size;

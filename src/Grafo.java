@@ -1,34 +1,34 @@
 
 public class Grafo {
-	private TablaHash<String, Nodo> nodos;
+	private Nodo[] nodos;
 	private int size;
 	
 	public Grafo() {
-		this.nodos = new TablaHash<String, Nodo>();
+		this.nodos = new Nodo[10];
 	}
 	
 	public void addNodo(Nodo nuevo) {
-		this.nodos.put(nuevo.getNombre(), nuevo);
+		if(this.nodos.length == this.size) {
+			this.ampliarArreglo();
+		}
+		this.nodos[this.size] = nuevo;
 		this.size++;
 	}
 	
-	public Grafo(Nodo...nodos) {
-		this.nodos = new TablaHash<String, Nodo>();
-		for(Nodo n: nodos) {
-			this.nodos.put(n.getNombre(), n);
-			this.size++;
+	private void ampliarArreglo() {
+		Nodo[] nuevoArreglo = new Nodo[this.size + 10];
+		for(int i = 0; i < this.size-1; i++) {
+			nuevoArreglo[i] = this.nodos[i];
 		}
+		this.nodos = nuevoArreglo;
 	}
 	
 	public void rutaMasCorta(Nodo inicio, Nodo destino) {
 		int[] menorPeso = new int[this.size];
 		boolean[] pesoEncontrado = new boolean[this.size];
-		
-	}
-	
-	private int contiene() {
-		
-		return 0;
+		for(int i = 0; i<this.size-1;i++) {
+			
+		}
 	}
 	
 	public void imprimeRutaMasCorta() {

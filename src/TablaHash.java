@@ -1,8 +1,8 @@
 import java.util.NoSuchElementException;
 
 //Utilizando encadenamiento
-public class TablaHash<K, V> {
-	private ListaEnlazada<NodoHT<K, V>>[] tabla;
+public class TablaHash<K, V, W> {
+	private ListaEnlazada<NodoHT<K, V, W>>[] tabla;
 	private final static double LOAD_FACTOR = 0.8;
 	private int size;
 	
@@ -11,35 +11,44 @@ public class TablaHash<K, V> {
 	}
 	
 	public TablaHash(int size) {
-		this.tabla = (ListaEnlazada<NodoHT<K, V>>[]) new ListaEnlazada[size];
+		this.tabla = (ListaEnlazada<NodoHT<K, V, W>>[]) new ListaEnlazada[size];
 		for(int i = 0; i < this.tabla.length; i++) {
-			this.tabla[i] = new ListaEnlazada<NodoHT<K, V>>();
+			this.tabla[i] = new ListaEnlazada<NodoHT<K, V, W>>();
 		}
 		this.size = 0;
 	}
 	
-	/*
-	 * Revisar el elemento que ya esta en la lista
-	 */
-	public void put(K llave, V valor) {
+	public V[] getValues() {
+		V[] values = (V[]) new Object[this.size];
+		NodoHT<K,V,W>[] nodos;
+		for(int i = 0; i<this.size; i++) {
+			nodos = tabla[i].getValues();
+			for(int j = 0; j<this.size-1; j++) {
+				values[(this.size*i)+j] = nodos[j].getValor();
+			}
+		}
+		return values;
+	}
+	
+	public void put(K llave, V valor, W peso) {
 		if((((double)this.size)/this.tabla.length) >= TablaHash.LOAD_FACTOR) {
 			this.rehashing();
 		}
 		int hash = Math.abs(llave.hashCode())%tabla.length;
-		ListaEnlazada<NodoHT<K, V>> bucket = this.tabla[hash];
-		bucket.insertarFin(new NodoHT<K, V>(llave, valor));
+		ListaEnlazada<NodoHT<K, V, W>> bucket = this.tabla[hash];
+		bucket.insertarFin(new NodoHT<K, V, W>(llave, valor, peso));
 		this.size++;
 	}
 	
 	private void rehashing() {
-		TablaHash<K,V> tablaHashTemp = new TablaHash<K,V>((this.tabla.length*2)+1);
-		NodoHT<K,V> current;
-		ListaEnlazada<NodoHT<K,V>> bucket;
+		TablaHash<K, V, W> tablaHashTemp = new TablaHash<K, V, W>((this.tabla.length*2)+1);
+		NodoHT<K, V, W> current;
+		ListaEnlazada<NodoHT<K, V, W>> bucket;
 		for(int i = 0; i < this.tabla.length; i++) {
 			bucket = tabla[i];
-			for(int j = 0; j < bucket.size(); j++) {
+			for(int j = 0; j < bucket.getSize(); j++) {
 				current = bucket.getAt(j);
-				tablaHashTemp.put(current.getLlave(), current.getValor());
+				tablaHashTemp.put(current.getLlave(), current.getValor(), current.getPeso());
 			}
 		}
 		this.tabla = tablaHashTemp.tabla;
@@ -47,9 +56,9 @@ public class TablaHash<K, V> {
 
 	public V get(K llave) throws NoSuchElementException{
 		int hash = Math.abs(llave.hashCode())%tabla.length;
-		ListaEnlazada<NodoHT<K,V>> bucket = this.tabla[hash];
-		NodoHT<K, V> current;	
-		for(int i = 0; i < bucket.size(); i++) {
+		ListaEnlazada<NodoHT<K, V, W>> bucket = this.tabla[hash];
+		NodoHT<K, V, W> current;	
+		for(int i = 0; i < bucket.getSize(); i++) {
 			current = bucket.getAt(i);
 			if(current.getLlave().equals(llave)) {
 				return bucket.getAt(i).getValor();
@@ -60,9 +69,9 @@ public class TablaHash<K, V> {
 	
 	public V delete(K llave) throws Exception {
 		int hash = Math.abs(llave.hashCode())%tabla.length;
-		ListaEnlazada<NodoHT<K,V>> bucket = this.tabla[hash];
-		NodoHT<K, V> current;
-		for(int i = 0; i < bucket.size(); i++) {
+		ListaEnlazada<NodoHT<K, V, W>> bucket = this.tabla[hash];
+		NodoHT<K, V, W> current;
+		for(int i = 0; i < bucket.getSize(); i++) {
 			current = bucket.getAt(i);
 			if(current.getLlave().equals(llave)) {
 				return bucket.borrarEn(i).getValor();
@@ -82,21 +91,27 @@ public class TablaHash<K, V> {
 	}
 	
 	public void clear() {
-		this.tabla = (ListaEnlazada<NodoHT<K, V>>[]) new ListaEnlazada[size];
+		this.tabla = (ListaEnlazada<NodoHT<K, V, W>>[]) new ListaEnlazada[size];
 		for(int i = 0; i < this.tabla.length; i++) {
-			this.tabla[i] = new ListaEnlazada<NodoHT<K, V>>();
+			this.tabla[i] = new ListaEnlazada<NodoHT<K, V, W>>();
 		}
 		this.size = 0;
 	}
+
+	public int getSize() {
+		return this.size;
+	}
 }
 
-class NodoHT<K, V>{
+class NodoHT<K, V, W>{
 	private V valor;
 	private K llave;
+	private W peso;
 	
-	public NodoHT(K llave, V valor){
+	public NodoHT(K llave, V valor, W peso){
 		this.llave = llave;
 		this.valor = valor;
+		this.peso = peso;
 	}
 	
 	public K getLlave() {
@@ -107,11 +122,19 @@ class NodoHT<K, V>{
 		return this.valor;
 	}
 	
+	public W getPeso() {
+		return this.peso;
+	}
+	
 	public void setValor(V valor) {
 		this.valor = valor;
 	}
 	
 	public void setLlave(K llave) {
 		this.llave = llave;
+	}
+	
+	public void setPeso(W peso) {
+		this.peso = peso;
 	}
 }
