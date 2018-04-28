@@ -1,11 +1,11 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PanelControl extends JPanel{
@@ -13,6 +13,7 @@ public class PanelControl extends JPanel{
 	private JComboBox<String> lstFrom, lstTo;
 	private JButton btnGo;
 	private String[] nombres;
+	private JLabel lbFrom, lbTo;
 	//private static BufferedReader bf = null;
 	
 	//Metodo para leer los nombres de los lugares para los combobox
@@ -46,7 +47,13 @@ public class PanelControl extends JPanel{
 		this.nombres = new String[54];
 		this.readNames();
 		lstFrom = new JComboBox<String>(nombres);
-		this.add(lstFrom);
+		lstTo = new JComboBox<String>(nombres);
+		lbFrom = new JLabel("¿De dónde?");
+		lbTo = new JLabel("¿A dónde?");
+		this.add(lbFrom,BorderLayout.LINE_START);
+		this.add(lstFrom, BorderLayout.LINE_END);
+		this.add(lbTo, BorderLayout.LINE_START);
+		this.add(lstTo, BorderLayout.LINE_END);
 		
 	}
 	
