@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -10,7 +11,9 @@ public class ShortestPathTec extends JFrame{
 		this.setResizable(false);
 		//this.setPreferredSize(new Dimension(1000,720));
 		PanelDibujo pd = new PanelDibujo();
-		this.add(pd);
+		PanelControl pc = new PanelControl();
+		this.add(pd, BorderLayout.WEST);
+		this.add(pc, BorderLayout.EAST);
 		this.pack();
 		
 		this.setVisible(true);

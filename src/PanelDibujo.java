@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 public class PanelDibujo extends JPanel{
 	private Image mapita;
+	private PanelControl pc;
 	
 	public PanelDibujo() {
 		super();
