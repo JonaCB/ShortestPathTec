@@ -7,6 +7,7 @@ public class ShortestPathTec extends JFrame{
 	public ShortestPathTec() {
 		super("Bienvenidos");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 		//this.setPreferredSize(new Dimension(1000,720));
 		PanelDibujo pd = new PanelDibujo();
 		this.add(pd);
