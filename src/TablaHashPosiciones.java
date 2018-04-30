@@ -129,4 +129,8 @@ class NodoHTPos<K, V>{
 	public void setLlave(K llave) {
 		this.llave = llave;
 	}
+	
+	public String toString() {
+		return "K: "+this.llave + ", V: "+this.valor;
+	}
 }

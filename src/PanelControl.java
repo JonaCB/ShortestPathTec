@@ -79,14 +79,6 @@ public class PanelControl extends JPanel{
 		return this.nombres;
 	}
 	
-	public int[] getAllX() {
-		return this.allX;
-	}
-	
-	public int[] getAllY() {
-		return this.allY;
-	}
-	
 	public String[] getAllNodos() {
 		return this.allNodos;
 	}

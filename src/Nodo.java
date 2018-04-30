@@ -64,4 +64,8 @@ public class Nodo{
 	public int[] getPesos() {
 		return this.pesos;
 	}
+	
+	public String toString() {
+		return ""+this.nombre + ", " + this.posX+ ", "+this.posY + ";";
+	}
 }
