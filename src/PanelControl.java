@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +14,8 @@ public class PanelControl extends JPanel{
 	private PanelDibujo pd;
 	private JComboBox<String> lstFrom, lstTo;
 	private JButton btnGo;
-	private String[] nombres;
+	private String[] nombres, allNodos;
+	private int[] allX,allY;
 	private JLabel lbFrom, lbTo;
 	//private static BufferedReader bf = null;
 	
@@ -41,20 +44,53 @@ public class PanelControl extends JPanel{
 		}
 	}
 	
+	public void getNodeProperties() {
+		BufferedReader bf = null;
+		int i = 0;
+		try {
+			bf = new BufferedReader(new FileReader("src\\Proyecto-coordenadas"));
+			String line;
+			while ((line = bf.readLine()) != null) {
+		        allNodos[i] = line;
+		        i++;
+		    }
+		}
+		catch(IOException e) {
+			System.out.println("fail");
+		}
+		finally {
+			 try {
+			        bf.close();
+			        System.out.println("arre la que barre");
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+		}
+	}
+	
 	public PanelControl() {
 		super();
 		this.setPreferredSize(new Dimension(260, 719));
 		this.nombres = new String[54];
+		this.allX = new int[84];
+		this.allY = new int[84];
 		this.readNames();
 		lstFrom = new JComboBox<String>(nombres);
 		lstTo = new JComboBox<String>(nombres);
 		lbFrom = new JLabel("¿De dónde?");
 		lbTo = new JLabel("¿A dónde?");
+		btnGo = new JButton("Dale");
+		btnGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+			
+		});
 		this.add(lbFrom,BorderLayout.LINE_START);
 		this.add(lstFrom, BorderLayout.LINE_END);
 		this.add(lbTo, BorderLayout.LINE_START);
 		this.add(lstTo, BorderLayout.LINE_END);
-		
+		this.add(btnGo);
 	}
 	
 	public String[] getNombres() {
