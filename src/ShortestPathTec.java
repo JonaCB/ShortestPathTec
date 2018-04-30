@@ -19,9 +19,9 @@ public class ShortestPathTec extends JFrame{
 		this.setVisible(true);
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		ShortestPathTec window = new ShortestPathTec();
 		
-	}
+	}*/
 
 }
