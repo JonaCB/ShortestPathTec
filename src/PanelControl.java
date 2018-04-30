@@ -1,7 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,47 +16,24 @@ public class PanelControl extends JPanel{
 	private JButton btnGo;
 	private String[] nombres, 
 					allNodos; //Todos los nodos, incluyendo A - AD
-	private int[] allX,allY; //Coordenadas X y Y de todos los nodos
 	private JLabel lbFrom, lbTo;
-	//private static BufferedReader bf = null;
+	private Grafo grafos;
 	
-	//Metodo para leer los nombres de los lugares para los combobox
-	public void readNames() {
-		BufferedReader bf = null;
-		int i = 0;
-		try {
-			bf = new BufferedReader(new FileReader("src\\Proyecto_ Lugares - Hoja 1.csv"));
-			String line;
-			while ((line = bf.readLine()) != null) {
-		        nombres[i] = line;
-		        i++;
-		    }
-		}
-		catch(IOException e) {
-			System.out.println("fail");
-		}
-		finally {
-			 try {
-			        bf.close();
-			        System.out.println("arre la que barre");
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
-		}
-	}
-	
-	public void getNodeProperties() {
+	public void nodeProperties() {
 		BufferedReader bf = null;
 		StringTokenizer st = null;
-		int i = 0;
+		int i = 0,
+				x,
+				y;
 		try {
 			bf = new BufferedReader(new FileReader("src\\Proyecto-coordenadas.csv"));
 			String line;
 			while ((line = bf.readLine()) != null) {
 				st = new StringTokenizer(line, ",");
 		        allNodos[i] = st.nextToken();
-		        allX[i] = Integer.parseInt(st.nextToken());
-		        allY[i] = Integer.parseInt(st.nextToken());
+		        x = Integer.parseInt(st.nextToken());
+		        y = Integer.parseInt(st.nextToken());
+		        grafos.addNodo(x, y, allNodos[i]);
 		        i++;
 		    }
 		}
@@ -78,22 +53,21 @@ public class PanelControl extends JPanel{
 	public PanelControl() {
 		super();
 		this.setPreferredSize(new Dimension(260, 719));
+		//INICIALIZAR TODITO
 		this.nombres = new String[54];
 		this.allNodos = new String[84];
-		this.allX = new int[84];
-		this.allY = new int[84];
-		this.readNames();
+		this.grafos = new Grafo();
+		this.nodeProperties();
+		for(int i = 0; i<54;i++) {
+			this.nombres[i] = this.allNodos[i];
+		}
 		lstFrom = new JComboBox<String>(nombres);
 		lstTo = new JComboBox<String>(nombres);
 		lbFrom = new JLabel("¿De dónde?");
 		lbTo = new JLabel("¿A dónde?");
 		btnGo = new JButton("Dale");
-		btnGo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-			
-		});
+		
+		
 		this.add(lbFrom,BorderLayout.LINE_START);
 		this.add(lstFrom, BorderLayout.LINE_END);
 		this.add(lbTo, BorderLayout.LINE_START);

@@ -21,6 +21,7 @@ public class ShortestPathTec extends JFrame{
 	public static void main(String[] args) {
 		ShortestPathTec window = new ShortestPathTec();
 		
+		
 	}
 
 }
