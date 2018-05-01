@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -54,11 +56,11 @@ public class PanelControl extends JPanel{
 		super();
 		this.setPreferredSize(new Dimension(260, 719));
 		//INICIALIZAR TODITO
-		this.nombres = new String[54];
-		this.allNodos = new String[84];
+		this.nombres = new String[56];
+		this.allNodos = new String[86];
 		this.grafos = new Grafo();
 		this.nodeProperties();
-		for(int i = 0; i<54;i++) {
+		for(int i = 0; i<56;i++) {
 			this.nombres[i] = this.allNodos[i];
 		}
 		lstFrom = new JComboBox<String>(nombres);
@@ -66,7 +68,13 @@ public class PanelControl extends JPanel{
 		lbFrom = new JLabel("¿De dónde?");
 		lbTo = new JLabel("¿A dónde?");
 		btnGo = new JButton("Dale");
-		
+		lstFrom.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+					if(e.getStateChange() == ItemEvent.SELECTED) {
+						
+					}
+			}
+		});
 		
 		this.add(lbFrom,BorderLayout.LINE_START);
 		this.add(lstFrom, BorderLayout.LINE_END);
