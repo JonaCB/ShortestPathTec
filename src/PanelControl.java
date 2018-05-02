@@ -76,7 +76,7 @@ public class PanelControl extends JPanel{
 					pd.paintImmediately(0, 0, 895, 719);
 					Color c = new Color(255, 255, 135);
 					int pos = grafos.getPosNodo((String) e.getItem());
-					Nodo n = grafos.getNodo(pos);
+					Nodo n = grafos.posicionNodo(pos);
 					int x = n.getPosX();
 					int y = n.getPosY();
 					pd.pintaCirculo(pd.getGraphics(),c, x, y);
