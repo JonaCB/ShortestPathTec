@@ -29,9 +29,9 @@ public class PanelControl extends JPanel{
 		super();
 		this.setPreferredSize(new Dimension(260, 719));
 		//INICIALIZAR TODITO
-		this.nombres = new String[56];
-		this.allNodos = new String[86];
-		this.grafos = new Grafo(86);
+		this.nombres = new String[57];
+		this.allNodos = new String[87];
+		this.grafos = new Grafo(87);
 		this.nodeProperties();
 		for(int i = 0; i<56;i++) {
 			this.nombres[i] = this.allNodos[i];
