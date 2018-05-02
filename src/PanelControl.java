@@ -60,7 +60,7 @@ public class PanelControl extends JPanel{
 		//INICIALIZAR TODITO
 		this.nombres = new String[56];
 		this.allNodos = new String[86];
-		this.grafos = new Grafo();
+		this.grafos = new Grafo(86);
 		this.nodeProperties();
 		for(int i = 0; i<56;i++) {
 			this.nombres[i] = this.allNodos[i];
@@ -74,7 +74,7 @@ public class PanelControl extends JPanel{
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
 					Color c = new Color(255, 255, 135);
-					int pos = grafos.getPosicion((String) e.getItem());
+					int pos = grafos.getPosNodo((String) e.getItem());
 					Nodo n = grafos.getNodo(pos);
 					int x = n.getPosX();
 					int y = n.getPosY();
