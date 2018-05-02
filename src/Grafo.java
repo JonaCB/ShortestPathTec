@@ -73,4 +73,8 @@ public class Grafo {
 		Dijkstra d = new Dijkstra(this, inicio, destino);
 		d.rutaMasCorta();
 	}
+	
+	public Nodo getNodo(int pos) {
+		return nodos[pos];
+	}
 }

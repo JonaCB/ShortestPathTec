@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -28,9 +29,18 @@ public class PanelDibujo extends JPanel{
 		this.repaint();
 	}
 	
+	public void pintaCirculo(Graphics g, Color c, int x, int y) {
+		g.setColor(c);
+		g.fillOval(x-10, y-10, 10, 10);
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(this.mapita, 0, 0, 895, 719, this);
 		g.fillRect(50, 50, 50, 50);
+	}
+	
+	public void setPanelControl(PanelControl pc) {
+		this.pc = pc;
 	}
 }

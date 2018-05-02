@@ -10,7 +10,8 @@ public class ShortestPathTec extends JFrame{
 		this.setResizable(false);
 		//this.setPreferredSize(new Dimension(1000,720));
 		PanelDibujo pd = new PanelDibujo();
-		PanelControl pc = new PanelControl();
+		PanelControl pc = new PanelControl(pd);
+		pd.setPanelControl(pc);
 		this.add(pd, BorderLayout.WEST);
 		this.add(pc, BorderLayout.EAST);
 		this.pack();

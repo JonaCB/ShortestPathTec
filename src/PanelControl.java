@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.BufferedReader;
@@ -52,7 +54,7 @@ public class PanelControl extends JPanel{
 		}
 	}
 	
-	public PanelControl() {
+	public PanelControl(PanelDibujo pd) {
 		super();
 		this.setPreferredSize(new Dimension(260, 719));
 		//INICIALIZAR TODITO
@@ -70,9 +72,14 @@ public class PanelControl extends JPanel{
 		btnGo = new JButton("Dale");
 		lstFrom.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-					if(e.getStateChange() == ItemEvent.SELECTED) {
-						
-					}
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					Color c = new Color(255, 255, 135);
+					int pos = grafos.getPosicion((String) e.getItem());
+					Nodo n = grafos.getNodo(pos);
+					int x = n.getPosX();
+					int y = n.getPosY();
+					pd.pintaCirculo(pd.getGraphics(),c, x, y);
+				}
 			}
 		});
 		
