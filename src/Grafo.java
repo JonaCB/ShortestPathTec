@@ -10,33 +10,46 @@ public class Grafo {
 	private List<Nodo> nodosListos = null;
 	private int size;
 	
-	public static void main(String[] args) throws Exception {
-		Grafo g = new Grafo(6);
-		Nodo A = new Nodo(5, 5, "A");
-		Nodo B = new Nodo(5, 5, "B");
-		Nodo C = new Nodo(5, 5, "C");
-		Nodo D = new Nodo(5, 5, "D");
-		Nodo E = new Nodo(5, 5, "E");
-		Nodo F = new Nodo(5, 5, "F");
-		g.addNodo(A);
-		g.addNodo(B);
-		g.addNodo(C);
-		g.addNodo(D);
-		g.addNodo(E);
-		g.addNodo(F);
-		g.addRuta(A, B, 3);
-		g.addRuta(A, E, 6);
-		g.addRuta(A, F, 10);
-		g.addRuta(B, C, 5);
-		g.addRuta(B, E, 2);
-		g.addRuta(C, D, 8);
-		g.addRuta(C, E, 9);
-		g.addRuta(C, F, 7);
-		g.addRuta(E, F, 4);
-		String respuesta = g.rutaMasCorta(A, F);
-		System.out.println(respuesta);
-		//g.imprimeRuta();
-	}
+	public int getSize() {return this.size;}
+	
+//	public static void main(String[] args) throws Exception {
+//		Grafo g = new Grafo(6);
+//		Nodo A = new Nodo(5, 5, "A");
+//		Nodo B = new Nodo(5, 5, "B");
+//		Nodo C = new Nodo(5, 5, "C");
+//		Nodo D = new Nodo(5, 5, "D");
+//		Nodo E = new Nodo(5, 5, "E");
+//		Nodo F = new Nodo(5, 5, "F");
+//		g.addNodo(A);
+//		g.addNodo(B);
+//		g.addNodo(C);
+//		g.addNodo(D);
+//		g.addNodo(E);
+//		g.addNodo(F);
+////		g.addRuta(A, B, 3);
+////		g.addRuta(A, E, 6);
+////		g.addRuta(A, F, 10);
+////		g.addRuta(B, C, 5);
+////		g.addRuta(B, E, 2);
+////		g.addRuta(C, D, 8);
+////		g.addRuta(C, E, 9);
+////		g.addRuta(C, F, 7);
+////		g.addRuta(E, F, 4);
+//		g.addRuta(A, B, 1);
+//		g.addRuta(A, D, 4);
+//		g.addRuta(B, C, 5);
+//		g.addRuta(B, D, 7);
+//		g.addRuta(B, E, 3);
+//		g.addRuta(B, F, 6);
+//		g.addRuta(C, F, 9);
+//		g.addRuta(D, E, 8);
+//		g.addRuta(E, F, 2);
+//		Nodo[] respuesta = g.rutaMasCorta(F, B);
+//		for(Nodo n: respuesta) {
+//			System.out.print(n.getNombre() + " ");
+//		}
+//		//g.imprimeRuta();
+//	}
 	
 	public Grafo(int numNodos) {
 		this.nodos = new Nodo[numNodos];
@@ -81,20 +94,25 @@ public class Grafo {
 		throw new NoSuchElementException("Fallo PosNodo");
 	}
 	
-	private String rutaMasCorta(Nodo inicio, Nodo fin) {
+	public int posicionNodo(String nombre) {
+		for(int i = 0; i<nodos.length; i++) {
+			if(this.nodos[i].getNombre().equals(nombre)) return i;
+		}
+		throw new NoSuchElementException("Fallo PosNodo");
+	}
+	
+	public Nodo[] rutaMasCorta(Nodo inicio, Nodo fin) {
 		this.rutaMasCorta(inicio);
 		Nodo tmp = this.nodosListos.get(this.nodosListos.indexOf(fin));
-		int distancia = tmp.getDistania();
 		Stack<Nodo> pila = new Stack<Nodo>();
 		while(tmp != null) {
 			pila.add(tmp);
 			tmp = tmp.getPadre();
 		}
-		String ruta = "";
-		while(!pila.isEmpty()) {
-			ruta+=(pila.pop().getNombre() + " ");
-		}
-		return distancia + ": " + ruta;
+		Nodo[] rutaFinal = new Nodo[pila.size()];
+		int puntero = 0;
+		while(!pila.isEmpty()) rutaFinal[puntero++]=(pila.pop());
+		return rutaFinal;
 	}
 
 	private void rutaMasCorta(Nodo inicio) {
@@ -102,7 +120,6 @@ public class Grafo {
 		this.nodosListos = new LinkedList<>();
 		cola.add(inicio);
 		while(!cola.isEmpty()) {
-			System.out.println("while");
 			Nodo tmp = cola.poll();
 			this.nodosListos.add(tmp);
 			int pos = this.posicionNodo(tmp);
