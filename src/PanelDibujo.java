@@ -31,7 +31,7 @@ public class PanelDibujo extends JPanel{
 	
 	public void pintaCirculo(Graphics g, Color c, int x, int y) {
 		g.setColor(c);
-		g.fillOval(x-25, y-25, 25, 25);
+		g.fillOval(x-12, y-12, 25, 25);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -40,6 +40,15 @@ public class PanelDibujo extends JPanel{
 		g.fillRect(50, 50, 50, 50);
 		this.pintaCirculo(g, Color.GREEN, pc.getSelectedStart().getPosX(), pc.getSelectedStart().getPosY());
 		this.pintaCirculo(g, Color.RED, pc.getSelectedEnd().getPosX(), pc.getSelectedEnd().getPosY());
+		if(pc.getDaleCandela()) {
+			Nodo[] rutita = pc.getRutita();
+			for(int i = 1; i<rutita.length;i++) {
+				Nodo n1 = rutita[i-1];
+				Nodo n2 = rutita[i];
+				g.setColor(Color.BLUE);
+				g.drawLine(n1.getPosX(), n1.getPosY(), n2.getPosX(), n2.getPosY());
+			}
+		}
 	}
 	
 	public void setPanelControl(PanelControl pc) {

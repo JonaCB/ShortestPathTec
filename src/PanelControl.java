@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.BufferedReader;
@@ -24,6 +26,8 @@ public class PanelControl extends JPanel{
 	private Grafo grafos;
 	private Nodo selectedStart,
 				selectedEnd;
+	private boolean daleCandela; //Booleano para saber si pintar o no las líneas 
+	private Nodo[] rutita;
 	
 	public PanelControl(PanelDibujo pd) {
 		super();
@@ -32,6 +36,7 @@ public class PanelControl extends JPanel{
 		this.nombres = new String[57];
 		this.allNodos = new String[87];
 		this.grafos = new Grafo(87);
+		this.daleCandela=false;
 		this.nodeProperties();
 		for(int i = 0; i<56;i++) {
 			this.nombres[i] = this.allNodos[i];
@@ -47,9 +52,9 @@ public class PanelControl extends JPanel{
 		lstFrom.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
-					Color c = Color.GREEN;
 					int pos = grafos.posicionNodo((String) e.getItem());
 					selectedStart = grafos.getNodo(pos);
+					daleCandela = false;
 					pd.paintImmediately(0, 0, 895, 719);
 				}
 			}
@@ -57,11 +62,18 @@ public class PanelControl extends JPanel{
 		lstTo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
-					Color c = Color.RED;
 					int pos = grafos.posicionNodo((String) e.getItem());
 					selectedEnd = grafos.getNodo(pos);
+					daleCandela = false;
 					pd.paintImmediately(0, 0, 895, 719);
 				}
+			}
+		});
+		btnGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				rutita = grafos.rutaMasCorta(selectedStart, selectedEnd);
+				daleCandela = true;
+				pd.paintImmediately(0, 0, 895, 719);
 			}
 		});
 		
@@ -100,7 +112,7 @@ public class PanelControl extends JPanel{
 		finally {
 			 try {
 			        bf.close();
-			        System.out.println("sí jaló alv");
+			       // System.out.println("sí jaló alv");
 			    } catch (IOException e) {
 			        e.printStackTrace();
 			    }
@@ -124,7 +136,6 @@ public class PanelControl extends JPanel{
 					Nodo lugar = grafos.getNodo(posNombre);
 					String peso = st.nextToken();
 					int numPeso = (int) Double.parseDouble(peso);
-					System.out.println(numPeso);
 					grafos.addRuta(ref, lugar, numPeso);
 				}
 				line = bf.readLine();
@@ -136,7 +147,7 @@ public class PanelControl extends JPanel{
 		finally {
 			 try {
 			        bf.close();
-			        System.out.println("sí jaló alv");
+			     //   System.out.println("sí jaló alv");
 			    } catch (IOException e) {
 			        e.printStackTrace();
 			    }
@@ -154,6 +165,10 @@ public class PanelControl extends JPanel{
 	public Nodo getSelectedStart() {return this.selectedStart;}
 	
 	public Nodo getSelectedEnd() {return this.selectedEnd;}
+	
+	public boolean getDaleCandela() {return this.daleCandela;}
+	
+	public Nodo[] getRutita() {return this.rutita;}
 	/*public static void main(String[] args) {
 		PanelControl pc = new PanelControl();
 		pc.getNodeProperties();
