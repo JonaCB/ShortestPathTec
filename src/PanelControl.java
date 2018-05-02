@@ -36,6 +36,7 @@ public class PanelControl extends JPanel{
 		for(int i = 0; i<56;i++) {
 			this.nombres[i] = this.allNodos[i];
 		}
+		this.adyacencias();
 		lstFrom = new JComboBox<String>(nombres);
 		lstTo = new JComboBox<String>(nombres);
 		lbFrom = new JLabel("¿De dónde?");
@@ -109,11 +110,23 @@ public class PanelControl extends JPanel{
 	public void adyacencias() {
 		BufferedReader bf = null;
 		StringTokenizer st = null;
-		int i = 0,
-				x,
-				y;
 		try {
-			bf = new BufferedReader(new FileReader("src\\Proyecto-coordenadas.csv"));
+			bf = new BufferedReader(new FileReader("src\\Adyancencias - Hoja 1.csv"));
+			String line = bf.readLine();
+			while(line!=null) {
+				st = new StringTokenizer(line, ",");
+				String nombreRef = st.nextToken();
+				int posRef = grafos.posicionNodo(nombreRef);
+				Nodo ref = grafos.getNodo(posRef);
+				while(st.hasMoreTokens()) {
+					String nombre = st.nextToken();
+					int posNombre = grafos.posicionNodo(nombre);
+					Nodo lugar = grafos.getNodo(posNombre);
+					String peso = st.nextToken();
+					grafos.addRuta(ref, lugar, Integer.parseInt(peso));
+				}
+				line = bf.readLine();
+			}
 		}
 		catch(IOException e) {
 			System.out.println("fail");
