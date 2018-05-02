@@ -111,7 +111,7 @@ public class PanelControl extends JPanel{
 		BufferedReader bf = null;
 		StringTokenizer st = null;
 		try {
-			bf = new BufferedReader(new FileReader("src\\Adyancencias - Hoja 1.csv"));
+			bf = new BufferedReader(new FileReader("src\\Adyacencias.csv"));
 			String line = bf.readLine();
 			while(line!=null) {
 				st = new StringTokenizer(line, ",");
@@ -123,7 +123,9 @@ public class PanelControl extends JPanel{
 					int posNombre = grafos.posicionNodo(nombre);
 					Nodo lugar = grafos.getNodo(posNombre);
 					String peso = st.nextToken();
-					grafos.addRuta(ref, lugar, Integer.parseInt(peso));
+					int numPeso = (int) Double.parseDouble(peso);
+					System.out.println(numPeso);
+					grafos.addRuta(ref, lugar, numPeso);
 				}
 				line = bf.readLine();
 			}
