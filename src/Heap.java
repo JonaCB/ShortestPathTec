@@ -1,10 +1,14 @@
 public class Heap {
 	private Nodo[] cola;
-	private int[] pesos;
+	private Integer[] pesos;
 	private int size;
 	
 	public Heap() {
-		this.cola = new Nodo[15];
+		this.cola = new Nodo[5];
+		this.pesos = new Integer[5];
+		for(int i = 0; i < 5; i++) {
+			this.pesos[i] = 5000;
+		}
 		this.size = 0;
 	}
 	
@@ -25,7 +29,6 @@ public class Heap {
 		}else if(num >= this.size/2){
 			return;
 		}else {
-			
 			if(k(num) > k1(num) && k1(num) <= k2(num)) {
 				this.swap(num, ((2*num)+1));
 				this.heapify((num*2)+1, false);
@@ -44,8 +47,11 @@ public class Heap {
 	
 	private void swap(int num1, int num2) {
 		Nodo tmp = this.cola[num1];
+		Integer tmpPesos = this.pesos[num1];
 		this.cola[num1] = this.cola[num2];
+		this.pesos[num1] = this.pesos[num2];
 		this.cola[num2] = tmp;
+		this.pesos[num2] = tmpPesos;
 	}
 
 	public int k(int num) {
@@ -72,21 +78,26 @@ public class Heap {
 		}
 	}
 
-	public void insert(Nodo dato){
+	public void insert(Nodo dato, Integer peso){
 		if(this.cola.length == this.size) {
 			this.expandir();
 		}
 		this.cola[this.size] = dato;
+		this.pesos[this.size] = peso;
 		this.heapify();
 		this.size++;
 	}
 	
 	private void expandir() {
-		Nodo[] nuevoArreglo = new Nodo[this.size*2];
+		Nodo[] nuevoArreglo = new Nodo[this.size+5];
+		Integer[] nuevoPesos = new Integer[this.size+5];
 		for(int i = 0; i < this.size; i++) {
 			nuevoArreglo[i] = this.cola[i];
+			nuevoPesos[i] = this.pesos[i];
+			nuevoPesos[this.size+i] = 5000;
 		}
 		this.cola = nuevoArreglo;
+		this.pesos = nuevoPesos;
 	}
 
 	public Nodo delete() {
@@ -99,8 +110,11 @@ public class Heap {
 			}
 		}
 		Nodo tmp = this.cola[0];
+		Integer tmpPeso = this.pesos[0];
 		this.cola[0] = this.cola[posFinal];
+		this.pesos[0] = this.pesos[posFinal];
 		this.cola[posFinal] = null;
+		this.pesos[posFinal] = 5000;
 		this.heapify();
 		this.size--;
 		return tmp;

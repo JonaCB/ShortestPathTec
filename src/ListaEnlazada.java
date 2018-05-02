@@ -23,6 +23,24 @@ public class ListaEnlazada<E> {
 		return null;
 	}
 	
+	public boolean contiene(E dato) {
+		NodoLE<E> current = this.inicio;
+		while(current != null) {
+			if(current.getDato() == dato) return true;
+		}
+		return false;
+	}
+	
+	public int index(E dato) {
+		NodoLE<E> current = this.inicio;
+		int pos = 0;
+		while(current != null) {
+			if(current.getDato() == dato) return pos;
+			pos++;
+		}
+		return -1;
+	}
+	
 	public ListaEnlazada(E[] datos) {
 		this();
 		for(int i = datos.length-1; i > 0; i--) {
