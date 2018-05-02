@@ -45,6 +45,10 @@ public class PanelDibujo extends JPanel{
 		this.pintaCirculo(g, Color.RED, pc.getSelectedEnd().getPosX(), pc.getSelectedEnd().getPosY());
 		if(pc.getDaleCandela()) {
 			Nodo[] rutita = pc.getRutita();
+			for(Nodo n:rutita) {
+				System.out.print(n.getNombre()+",");
+			}
+			System.out.println();
 			for(int i = 1; i<rutita.length;i++) {
 				Nodo n1 = rutita[i-1];
 				Nodo n2 = rutita[i];
