@@ -31,13 +31,15 @@ public class PanelDibujo extends JPanel{
 	
 	public void pintaCirculo(Graphics g, Color c, int x, int y) {
 		g.setColor(c);
-		g.fillOval(x-10, y-10, 10, 10);
+		g.fillOval(x-25, y-25, 25, 25);
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(this.mapita, 0, 0, 895, 719, this);
 		g.fillRect(50, 50, 50, 50);
+		this.pintaCirculo(g, Color.GREEN, pc.getSelectedStart().getPosX(), pc.getSelectedStart().getPosY());
+		this.pintaCirculo(g, Color.RED, pc.getSelectedEnd().getPosX(), pc.getSelectedEnd().getPosY());
 	}
 	
 	public void setPanelControl(PanelControl pc) {

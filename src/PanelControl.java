@@ -22,6 +22,58 @@ public class PanelControl extends JPanel{
 					allNodos; //Todos los nodos, incluyendo A - AD
 	private JLabel lbFrom, lbTo;
 	private Grafo grafos;
+	private Nodo selectedStart,
+				selectedEnd;
+	
+	public PanelControl(PanelDibujo pd) {
+		super();
+		this.setPreferredSize(new Dimension(260, 719));
+		//INICIALIZAR TODITO
+		this.nombres = new String[56];
+		this.allNodos = new String[86];
+		this.grafos = new Grafo(86);
+		this.nodeProperties();
+		for(int i = 0; i<56;i++) {
+			this.nombres[i] = this.allNodos[i];
+		}
+		lstFrom = new JComboBox<String>(nombres);
+		lstTo = new JComboBox<String>(nombres);
+		lbFrom = new JLabel("¿De dónde?");
+		lbTo = new JLabel("¿A dónde?");
+		btnGo = new JButton("Dale");
+		this.selectedStart = grafos.getNodo(0);
+		this.selectedEnd = grafos.getNodo(0);
+		lstFrom.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					Color c = Color.GREEN;
+					int pos = grafos.posicionNodo((String) e.getItem());
+					selectedStart = grafos.getNodo(pos);
+					pd.paintImmediately(0, 0, 895, 719);
+				}
+			}
+		});
+		lstTo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					Color c = Color.RED;
+					int pos = grafos.posicionNodo((String) e.getItem());
+					selectedEnd = grafos.getNodo(pos);
+					pd.paintImmediately(0, 0, 895, 719);
+				}
+			}
+		});
+		
+		this.add(lbFrom,BorderLayout.LINE_START);
+		this.add(lstFrom, BorderLayout.LINE_END);
+		this.add(lbTo, BorderLayout.LINE_START);
+		this.add(lstTo, BorderLayout.LINE_END);
+		this.add(btnGo);
+	}
+	
+	public Nodo getNodo(int pos) {
+		return this.grafos.getNodo(pos);
+	}
 	
 	public void nodeProperties() {
 		BufferedReader bf = null;
@@ -54,41 +106,26 @@ public class PanelControl extends JPanel{
 		}
 	}
 	
-	public PanelControl(PanelDibujo pd) {
-		super();
-		this.setPreferredSize(new Dimension(260, 719));
-		//INICIALIZAR TODITO
-		this.nombres = new String[56];
-		this.allNodos = new String[86];
-		this.grafos = new Grafo(86);
-		this.nodeProperties();
-		for(int i = 0; i<56;i++) {
-			this.nombres[i] = this.allNodos[i];
+	public void adyacencias() {
+		BufferedReader bf = null;
+		StringTokenizer st = null;
+		int i = 0,
+				x,
+				y;
+		try {
+			bf = new BufferedReader(new FileReader("src\\Proyecto-coordenadas.csv"));
 		}
-		lstFrom = new JComboBox<String>(nombres);
-		lstTo = new JComboBox<String>(nombres);
-		lbFrom = new JLabel("¿De dónde?");
-		lbTo = new JLabel("¿A dónde?");
-		btnGo = new JButton("Dale");
-		lstFrom.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					pd.paintImmediately(0, 0, 895, 719);
-					Color c = new Color(255, 255, 135);
-					int pos = grafos.posicionNodo((String) e.getItem());
-					Nodo n = grafos.getNodo(pos);
-					int x = n.getPosX();
-					int y = n.getPosY();
-					pd.pintaCirculo(pd.getGraphics(),c, x, y);
-				}
-			}
-		});
-		
-		this.add(lbFrom,BorderLayout.LINE_START);
-		this.add(lstFrom, BorderLayout.LINE_END);
-		this.add(lbTo, BorderLayout.LINE_START);
-		this.add(lstTo, BorderLayout.LINE_END);
-		this.add(btnGo);
+		catch(IOException e) {
+			System.out.println("fail");
+		}
+		finally {
+			 try {
+			        bf.close();
+			        System.out.println("sí jaló alv");
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+		}
 	}
 	
 	public String[] getNombres() {
@@ -99,6 +136,9 @@ public class PanelControl extends JPanel{
 		return this.allNodos;
 	}
 	
+	public Nodo getSelectedStart() {return this.selectedStart;}
+	
+	public Nodo getSelectedEnd() {return this.selectedEnd;}
 	/*public static void main(String[] args) {
 		PanelControl pc = new PanelControl();
 		pc.getNodeProperties();
