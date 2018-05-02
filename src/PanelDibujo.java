@@ -38,6 +38,9 @@ public class PanelDibujo extends JPanel{
 		super.paintComponent(g);
 		g.drawImage(this.mapita, 0, 0, 895, 719, this);
 		g.fillRect(50, 50, 50, 50);
+		g.setColor(Color.ORANGE);
+		g.drawString(pc.getSelectedStart().getNombre(), pc.getSelectedStart().getPosX()-25, pc.getSelectedStart().getPosY()-25);
+		g.drawString(pc.getSelectedEnd().getNombre(), pc.getSelectedEnd().getPosX()-25, pc.getSelectedEnd().getPosY()-25);
 		this.pintaCirculo(g, Color.GREEN, pc.getSelectedStart().getPosX(), pc.getSelectedStart().getPosY());
 		this.pintaCirculo(g, Color.RED, pc.getSelectedEnd().getPosX(), pc.getSelectedEnd().getPosY());
 		if(pc.getDaleCandela()) {
