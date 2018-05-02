@@ -73,6 +73,7 @@ public class PanelControl extends JPanel{
 		lstFrom.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
+					pd.paintImmediately(0, 0, 895, 719);
 					Color c = new Color(255, 255, 135);
 					int pos = grafos.getPosNodo((String) e.getItem());
 					Nodo n = grafos.getNodo(pos);
