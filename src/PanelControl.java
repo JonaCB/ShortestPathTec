@@ -94,7 +94,6 @@ public class PanelControl extends JPanel{
 						s=s+n.getNombre()+", ";
 					}
 				}
-				System.out.println(s);
 				ruta.setVisible(daleCandela);
 				ruta.setText(s);
 				pd.paintImmediately(0, 0, 895, 719);
@@ -105,7 +104,6 @@ public class PanelControl extends JPanel{
 				String tmp = selectedEnd.getNombre();
 				lstTo.setSelectedItem(selectedStart.getNombre());
 				lstFrom.setSelectedItem(tmp);
-				//pd.getPanelControl().paintImmediately(0, 0, 260, 719);
 				pd.paintImmediately(0, 0, 895, 719);
 			}
 		});
