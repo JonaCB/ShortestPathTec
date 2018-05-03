@@ -134,7 +134,6 @@ public class PanelControl extends JPanel{
 		finally {
 			try {
 				bf.close();
-				// System.out.println("sí jaló alv");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -164,12 +163,11 @@ public class PanelControl extends JPanel{
 			}
 		}
 		catch(IOException e) {
-			System.out.println("fail");
+			//System.out.println("fail");
 		}
 		finally {
 			 try {
 			        bf.close();
-			     //   System.out.println("sí jaló alv");
 			    } catch (IOException e) {
 			        e.printStackTrace();
 			    }
