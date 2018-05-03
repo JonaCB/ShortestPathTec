@@ -21,7 +21,8 @@ import javax.swing.JTextField;
 public class PanelControl extends JPanel{
 	private PanelDibujo pd;
 	private JComboBox<String> lstFrom, lstTo;
-	private JButton btnGo;
+	private JButton btnGo,
+					btnInvertir;
 	private String[] nombres, 
 					allNodos; //Todos los nodos, incluyendo A - AD
 	private JLabel lbFrom, lbTo;
@@ -46,7 +47,7 @@ public class PanelControl extends JPanel{
 		}
 		this.adyacencias();
 		this.ruta = new JTextArea();
-		ruta.setVisible(true);
+		ruta.setVisible(daleCandela);
 		ruta.setLineWrap(true);
 		ruta.setEditable(false);
 		ruta.setRows(8);
@@ -56,8 +57,11 @@ public class PanelControl extends JPanel{
 		lbFrom = new JLabel("¿De dónde?");
 		lbTo = new JLabel("¿A dónde?");
 		btnGo = new JButton("Dale");
-		this.selectedStart = grafos.getNodo(0);
-		this.selectedEnd = grafos.getNodo(0);
+		btnInvertir = new JButton("Invierte");
+		this.selectedStart = grafos.getNodo(55);
+		this.selectedEnd = grafos.getNodo(22);
+		lstFrom.setSelectedItem(grafos.getNodo(55).getNombre());
+		lstTo.setSelectedItem(grafos.getNodo(22).getNombre());
 		lstFrom.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
@@ -90,19 +94,27 @@ public class PanelControl extends JPanel{
 						s=s+n.getNombre()+", ";
 					}
 				}
-				
 				System.out.println(s);
 				ruta.setVisible(daleCandela);
 				ruta.setText(s);
 				pd.paintImmediately(0, 0, 895, 719);
 			}
 		});
-		
+		btnInvertir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String tmp = selectedEnd.getNombre();
+				lstTo.setSelectedItem(selectedStart.getNombre());
+				lstFrom.setSelectedItem(tmp);
+				//pd.getPanelControl().paintImmediately(0, 0, 260, 719);
+				pd.paintImmediately(0, 0, 895, 719);
+			}
+		});
 		this.add(lbFrom,BorderLayout.LINE_START);
 		this.add(lstFrom, BorderLayout.LINE_END);
 		this.add(lbTo, BorderLayout.LINE_START);
 		this.add(lstTo, BorderLayout.LINE_END);
-		this.add(btnGo);
+		this.add(btnGo, BorderLayout.LINE_START);
+		this.add(btnInvertir, BorderLayout.LINE_END);
 		this.add(ruta, BorderLayout.LINE_END);
 	}
 	
@@ -162,9 +174,7 @@ public class PanelControl extends JPanel{
 				line = bf.readLine();
 			}
 		}
-		catch(IOException e) {
-			//System.out.println("fail");
-		}
+		catch(IOException e) {}
 		finally {
 			 try {
 			        bf.close();

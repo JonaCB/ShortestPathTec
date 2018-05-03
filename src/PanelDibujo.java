@@ -17,15 +17,6 @@ public class PanelDibujo extends JPanel{
 		super();
 		this.mapita = new ImageIcon("MapaITESM.jpg").getImage();
 		this.setPreferredSize(new Dimension(895, 719));
-		this.addMouseListener(new MouseListener() {
-			public void mouseReleased(MouseEvent e) {}
-			public void mousePressed(MouseEvent e) {}			
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(e.getX() + "," + e.getY());
-			}
-		});
 		this.repaint();
 	}
 	
@@ -49,8 +40,10 @@ public class PanelDibujo extends JPanel{
 			for(int i = 1; i<rutita.length;i++) {
 				Nodo n1 = rutita[i-1];
 				Nodo n2 = rutita[i];
-				g.setColor(Color.BLUE);
+				g.setColor(Color.ORANGE);
 				g.drawLine(n1.getPosX(), n1.getPosY(), n2.getPosX(), n2.getPosY());
+				g.drawLine(n1.getPosX()+1, n1.getPosY()+1, n2.getPosX()+1, n2.getPosY()+1);
+				g.drawLine(n1.getPosX()-1, n1.getPosY()-1, n2.getPosX()-1, n2.getPosY()-1);
 			}
 		}
 	}
@@ -58,4 +51,6 @@ public class PanelDibujo extends JPanel{
 	public void setPanelControl(PanelControl pc) {
 		this.pc = pc;
 	}
+	
+	public PanelControl getPanelControl() {return this.pc;}
 }
