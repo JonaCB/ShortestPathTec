@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class PanelControl extends JPanel{
 	private PanelDibujo pd;
@@ -28,6 +30,7 @@ public class PanelControl extends JPanel{
 				selectedEnd;
 	private boolean daleCandela; //Booleano para saber si pintar o no las líneas 
 	private Nodo[] rutita;
+	private JTextArea ruta;
 	
 	public PanelControl(PanelDibujo pd) {
 		super();
@@ -38,10 +41,16 @@ public class PanelControl extends JPanel{
 		this.grafos = new Grafo(87);
 		this.daleCandela=false;
 		this.nodeProperties();
-		for(int i = 0; i<56;i++) {
+		for(int i = 0; i<57;i++) {
 			this.nombres[i] = this.allNodos[i];
 		}
 		this.adyacencias();
+		this.ruta = new JTextArea();
+		ruta.setVisible(true);
+		ruta.setLineWrap(true);
+		ruta.setEditable(false);
+		ruta.setRows(8);
+		ruta.setPreferredSize(new Dimension(220,30));
 		lstFrom = new JComboBox<String>(nombres);
 		lstTo = new JComboBox<String>(nombres);
 		lbFrom = new JLabel("¿De dónde?");
@@ -55,6 +64,7 @@ public class PanelControl extends JPanel{
 					int pos = grafos.posicionNodo((String) e.getItem());
 					selectedStart = grafos.getNodo(pos);
 					daleCandela = false;
+					ruta.setVisible(daleCandela);
 					pd.paintImmediately(0, 0, 895, 719);
 				}
 			}
@@ -65,6 +75,7 @@ public class PanelControl extends JPanel{
 					int pos = grafos.posicionNodo((String) e.getItem());
 					selectedEnd = grafos.getNodo(pos);
 					daleCandela = false;
+					ruta.setVisible(daleCandela);
 					pd.paintImmediately(0, 0, 895, 719);
 				}
 			}
@@ -73,6 +84,16 @@ public class PanelControl extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				rutita = grafos.rutaMasCorta(selectedStart, selectedEnd);
 				daleCandela = true;
+				String s = "";
+				for(Nodo n:rutita) {
+					if(n.getNombre().length()>2) {
+						s=s+n.getNombre()+", ";
+					}
+				}
+				
+				System.out.println(s);
+				ruta.setVisible(daleCandela);
+				ruta.setText(s);
 				pd.paintImmediately(0, 0, 895, 719);
 			}
 		});
@@ -82,6 +103,7 @@ public class PanelControl extends JPanel{
 		this.add(lbTo, BorderLayout.LINE_START);
 		this.add(lstTo, BorderLayout.LINE_END);
 		this.add(btnGo);
+		this.add(ruta, BorderLayout.LINE_END);
 	}
 	
 	public Nodo getNodo(int pos) {
@@ -110,12 +132,12 @@ public class PanelControl extends JPanel{
 			System.out.println("fail");
 		}
 		finally {
-			 try {
-			        bf.close();
-			       // System.out.println("sí jaló alv");
-			    } catch (IOException e) {
-			        e.printStackTrace();
-			    }
+			try {
+				bf.close();
+				// System.out.println("sí jaló alv");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
